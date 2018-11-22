@@ -1,0 +1,60 @@
+@import '../../common/css/mixin.less';
+
+// 首页
+
+@banner-height: 190px;
+
+.banner {
+  position: relative;
+}
+.project-banner {
+  height: @banner-height;
+  background-repeat: no-repeat;
+  background-size: 100% 100%
+}
+
+.logo {
+  padding: 40px 0 50px 0;
+  height: @banner-height;
+  background-color: @theme-color;
+  text-align: center;
+  .logo-img {
+    width: 250px;
+    height: 100px;
+  }
+}
+
+.mask {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  height: 64px;
+  line-height: 64px;
+  width: 100%;
+  background: rgba(255, 255, 255, .2);
+  text-align: center;
+
+  .mask-text {
+    width: 100%;
+    color: #fff;
+    text-align: center;
+  }
+}
+
+.logo-text {
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  font-size: 36px;
+  font-weight: bold;
+  letter-spacing: 5px;
+}
+
+.hotspot-title .h4 {
+  .btn-title-text;
+}
+
+.post-title {
+  .normal-title;
+  margin: 0 10px;
+}

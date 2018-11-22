@@ -7,89 +7,93 @@
 
 const path = require('path');
 const rider = require('rider');
+const less = require('less');
 
 const DEV_SERVER_PORT = 9090;
 
 module.exports = {
-    verbose: false,
-    root: path.join(__dirname, '..'),
-    output: {
-        dir: 'dist',
-        depDir: 'src/common'
+  verbose: false,
+  root: path.join(__dirname, '..'),
+  output: {
+    dir: 'dist',
+    depDir: 'src/common',
+  },
+  component: {
+    extname: 'vue',
+    template: {
+      transformTags: {
+        // div p 将转为 view 标签
+        view: ['div', 'p'],
+        // a 将标签转为 navigator 标签，href 属性 转为 url 属性
+        navigator: {
+          tag: 'a',
+          href: 'url',
+        },
+        // img 将转为 image 标签
+        image: 'img',
+      },
     },
-    component: {
-        extname: 'vue',
-        template: {
-            transformTags: {
-                // div p 将转为 view 标签
-                view: ['div', 'p'],
-                // a 将标签转为 navigator 标签，href 属性 转为 url 属性
-                navigator: {
-                    tag: 'a',
-                    href: 'url'
-                },
-                // img 将转为 image 标签
-                image: 'img'
-            }
-        }
+  },
+  framework: [
+    'data',
+    // 'ref'
+  ],
+  processors: {
+    babel7: {
+      extnames: ['js'],
     },
-    framework: [
-        'data'
-        // 'ref'
+    stylus: {
+      options: {
+        use(style) {
+          style.use(rider());
+        },
+      },
+    },
+    less: {
+      extnames: ['less'],
+    },
+    postcss: {
+      extnames: ['styl', 'less'],
+      options: {
+        plugins: {
+          px2rpx: {
+            // 设计稿尺寸
+            designWidth: 750,
+          },
+        },
+      },
+    },
+  },
+
+  server: {
+    // 启用开发 Server
+    port: DEV_SERVER_PORT,
+    // 需要安装 mock 中间件 npm i autoresponse --save-dev
+    middlewares: [
+      // name: 'autoresponse',
+      // options: {
+      //}
     ],
-    processors: {
-        babel7: {
-            extnames: ['js']
+  },
+
+  dev: {
+    rules: [
+      {
+        match: /\.(png|jpe?g|gif)(\?.*)?$/,
+        processors: {
+          tinyimg: {
+            replaceRaw: true,
+          },
         },
-        stylus: {
-            options: {
-                use(style) {
-                    style.use(rider());
-                }
-            }
-        },
-        postcss: {
-            extnames: ['styl'],
-            options: {
-                plugins: {
-                    px2rpx: {
-                        // 设计稿尺寸
-                        designWidth: 1242
-                    }
-                }
-            }
-        }
-    },
-
-    server: { // 启用开发 Server
-        port: DEV_SERVER_PORT,
-        // 需要安装 mock 中间件 npm i autoresponse --save-dev
-        middlewares: [
-            // name: 'autoresponse',
-            // options: {
-
-            //}
-        ]
-    },
-
-    dev: {
-        rules: [
-            {
-                match: /\.(png|jpe?g|gif)(\?.*)?$/,
-                processors: {
-                    tinyimg: {
-                        replaceRaw: true
-                    }
-                }
-            }
-            // {
-            //     match: 'src/**/*.js',
-            //     processors: [
-            //         ['replacement', {
-            //             'https://online.com': '${devServer}',
-            //         }]
-            //     ]
-            // }
-        ]
-    }
+      },
+      // {
+      //     match: 'src/**/*.js',
+      //     processors: [
+      //         ['replacement', {
+      //             'https://online.com': '${devServer}',
+      //         }]
+      //     ]
+      // }
+    ],
+  },
 };

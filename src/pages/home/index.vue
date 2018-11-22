@@ -42,9 +42,6 @@ export default {
 </script>
 
 <style lang="stylus">
-@require '../../common/css/variable.styl'
-@require '../../common/css/mixin.styl'
-
 .home-wrap
   padding: 100px
   height: 100vh
